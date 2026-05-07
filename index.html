@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zenzen IoT — FOSS middleware for embedded and high-performance IoT</title>
+<meta name="description" content="Zenzen IoT develops free, open-source middleware for embedded and high-performance IoT — including Zenzen DDS, an OMG DDS implementation written in Zig." />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M18 14 L42 14 L18 38 L42 38' stroke='%231a1a1a' stroke-width='4' stroke-linejoin='miter' stroke-linecap='butt' fill='none'/><path d='M30 26 L54 26 L30 50 L54 50' stroke='%23d97706' stroke-width='4' stroke-linejoin='miter' stroke-linecap='butt' fill='none'/><line x1='42' y1='14' x2='18' y2='38' stroke='%231a1a1a' stroke-width='4' stroke-linecap='butt'/></svg>" />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a1a;
+    --paper: #faf8f3;
+    --paper-2: #f3efe6;
+    --rule: #1a1a1a;
+    --muted: #6b6b66;
+    --muted-2: #908a7e;
+    --accent: #d97706;
+    --serif: "Newsreader", Georgia, serif;
+    --sans: "Inter", system-ui, -apple-system, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; }
+
+  .page { max-width: 880px; margin: 0 auto; padding: 32px 32px 64px; }
+
+  /* masthead */
+  .masthead {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 14px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand .mark { display: block; }
+  .brand .name { font-family: var(--serif); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+  .brand .name em { font-style: italic; font-weight: 500; }
+  .masthead .meta { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; line-height: 1.5; }
+
+  /* hero */
+  .hero { padding: 72px 0 48px; }
+  .section-no { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(34px, 5.6vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    margin: 14px 0 0;
+    max-width: 18ch;
+  }
+  .hero h1 .accent { color: var(--accent); font-style: normal; }
+  .hero h1 em { font-style: italic; font-weight: 500; }
+  .hero .lede {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.55;
+    color: #2a2a2a;
+    max-width: 56ch;
+    margin: 24px 0 0;
+  }
+  .hero .status {
+    margin-top: 28px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    border: 1px solid var(--ink);
+    padding: 4px 10px;
+    background: #fff;
+  }
+  .hero .status .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  /* generic section */
+  section { padding: 40px 0; border-top: 1px solid var(--ink); }
+  section.work { padding-top: 32px; }
+  section h2 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    margin: 8px 0 20px;
+  }
+
+  /* projects */
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 8px; }
+  .project { }
+  .project .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .project h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .project h3 .code { font-family: var(--mono); font-size: 13px; color: var(--muted); font-weight: 400; margin-left: 6px; letter-spacing: 0; }
+  .project .stage {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    border: 1px solid var(--muted);
+    padding: 1px 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .project p {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.55;
+    color: #2a2a2a;
+    margin: 12px 0 0;
+  }
+  .project .tags { margin-top: 14px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .project .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    border: 1px solid var(--ink);
+    padding: 1px 7px;
+    background: var(--paper);
+    white-space: nowrap;
+  }
+
+  /* on-the-horizon */
+  .horizon p {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.6;
+    color: #2a2a2a;
+    max-width: 60ch;
+    margin: 0;
+  }
+  .horizon .list {
+    margin-top: 16px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .horizon .pill {
+    font-family: var(--mono);
+    font-size: 12px;
+    border: 1px solid var(--muted);
+    color: var(--muted);
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: transparent;
+    white-space: nowrap;
+  }
+
+  /* contact */
+  .contact-row { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; }
+  .contact-row .right { text-align: right; font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6; }
+  .email {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 8px 0 0;
+    letter-spacing: -0.005em;
+  }
+  .email .at, .email .dot { color: var(--accent); font-family: var(--mono); font-size: 16px; padding: 0 4px; }
+  .email .frag { font-family: var(--mono); font-size: 19px; }
+  .email a { text-decoration: none; border-bottom: 1px solid transparent; }
+  .email a:hover { border-bottom-color: var(--accent); }
+
+  /* footer */
+  footer {
+    margin-top: 64px;
+    padding-top: 18px;
+    border-top: 1.5px solid var(--ink);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  footer .colophon em { font-style: normal; color: var(--ink); }
+
+  /* small screens */
+  @media (max-width: 640px) {
+    .page { padding: 20px 20px 48px; }
+    .hero { padding: 48px 0 32px; }
+    .projects { grid-template-columns: 1fr; gap: 28px; }
+    .masthead .meta { display: none; }
+    .contact-row { flex-direction: column; align-items: flex-start; }
+    .contact-row .right { text-align: left; }
+    footer { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="brand">
+      <svg class="mark" width="32" height="32" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M18 14 L42 14 L18 38 L42 38" stroke="var(--ink)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="butt" fill="none" />
+        <path d="M30 26 L54 26 L30 50 L54 50" stroke="var(--accent)" stroke-width="4" stroke-linejoin="miter" stroke-linecap="butt" fill="none" />
+        <line x1="42" y1="14" x2="18" y2="38" stroke="var(--ink)" stroke-width="4" stroke-linecap="butt" />
+      </svg>
+      <span class="name">Zenzen <em>IoT</em></span>
+    </div>
+    <div class="meta">
+      zz-iot.org<br />
+      est. 2026
+    </div>
+  </header>
+
+  <section class="hero" style="border: 0; padding-top: 72px;">
+    <div class="section-no">§ 01 — Mission</div>
+    <h1>
+      FOSS middleware for embedded<br />
+      and high-performance IoT,<br />
+      written in <span class="accent">Zig</span>.
+    </h1>
+    <p class="lede">
+      Zenzen IoT develops free, open-source middleware for the things that need it most — built in Zig, with care.
+    </p>
+    <div class="status">
+      <span class="dot"></span>
+      pre-alpha · early development · 2026
+    </div>
+  </section>
+
+  <section class="work">
+    <div class="section-no">§ 02 — Current work</div>
+    <h2>What's in flight.</h2>
+    <div class="projects">
+      <article class="project">
+        <div class="head">
+          <h3>Zenzen DDS<span class="code">zzdds</span></h3>
+          <span class="stage">pre-α</span>
+        </div>
+        <p>
+          A new implementation of the OMG <em>DDS</em> specification, written from scratch in Zig.
+        </p>
+        <div class="tags">
+          <span class="tag">Zig</span>
+          <span class="tag">OMG DDS</span>
+          <span class="tag">embedded</span>
+        </div>
+      </article>
+
+      <article class="project">
+        <div class="head">
+          <h3>zidl</h3>
+          <span class="stage">pre-α</span>
+        </div>
+        <p>
+          A code generator — also written in Zig — that consumes OMG <em>IDL</em> and produces type support and interfaces.
+        </p>
+        <div class="tags">
+          <span class="tag">Zig</span>
+          <span class="tag">OMG IDL</span>
+          <span class="tag">codegen</span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-no">§ 03 — Correspondence</div>
+    <h2>Get in touch.</h2>
+    <div class="contact-row">
+      <div>
+        <p class="email" id="email">
+          <noscript>
+            <span class="frag">contact</span><span class="at">[at]</span><span class="frag">zz-iot</span><span class="dot">[dot]</span><span class="frag">org</span>
+          </noscript>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="colophon">
+      <em>Zenzen IoT</em> — © 2026
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// Layered email obfuscation.
+// (1) The address never appears as a literal string in the source.
+// (2) Pieces are stored split, then assembled at render time.
+// (3) The visible form keeps the [at]/[dot] convention until you click.
+// (4) The mailto: handler builds the address only on user gesture.
+(function () {
+  // pieces, each base64-ish encoded with a tiny rot for fun
+  // (the goal isn't cryptography — just to make naive scrapers miss)
+  const enc = ["Y29udGFjdA==", "eno=LWlvdA==", "b3Jn"]; // "contact", "zz-iot" (with marker), "org"
+  // decode helpers
+  const u = s => atob(s.replace(/=.*/, m => m));
+  // assemble fragments
+  const local = atob("Y29udGFjdA==");        // contact
+  const dom1  = atob("eno=").replace("=","") + "-" + atob("aW90"); // zz-iot
+  const tld   = atob("b3Jn");                // org
+
+  const el = document.getElementById("email");
+  if (!el) return;
+
+  // visual form — still obfuscated for human readers / scrapers
+  el.innerHTML =
+    '<a href="#" id="email-link" aria-label="Reveal contact email">' +
+      '<span class="frag">' + local + '</span>' +
+      '<span class="at">[at]</span>' +
+      '<span class="frag">' + dom1 + '</span>' +
+      '<span class="dot">[dot]</span>' +
+      '<span class="frag">' + tld + '</span>' +
+    '</a>';
+
+  // only on user gesture do we build the real mailto:
+  document.getElementById("email-link").addEventListener("click", function (ev) {
+    ev.preventDefault();
+    const addr = local + String.fromCharCode(64) + dom1 + "." + tld;
+    window.location.href = "mailto:" + addr;
+  });
+})();
+</script>
+
+</body>
+</html>
